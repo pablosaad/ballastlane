@@ -1,0 +1,12 @@
+image:
+  repository: myrepo/api
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: LoadBalancer
+  port: 80
+
+env:
+  DATABASE_URL: ""
+

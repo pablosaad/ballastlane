@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-database
+  labels:
+    app: {{ .Release.Name }}-database
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-database
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-database
+    spec:
+      containers:
+        - name: database
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: database-storage
+      volumes:
+        - name: database-storage
+          persistentVolumeClaim:
+            claimName: database-pvc
